@@ -1,0 +1,42 @@
+{
+  "name": "jasmine-vue",
+  "version": "0.0.1",
+  "description": "Jasmine test helper for Vue files",
+  "main": "dist/jasmine-vue.js",
+  "scripts": {
+    "test": "npm run eslint && npm run karma -- --single-run --reporters=progress,coverage",
+    "test:dev": "npm run karma -- --reporters=mocha,coverage",
+    "eslint": "eslint src/**/*.js test/**/*.js",
+    "karma": "cross-env NODE_ENV=test karma start",
+    "webpack": "webpack --progress --color --watch",
+    "preversion": "npm run webpack && git add dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/behance/jasmine-vue.git"
+  },
+  "author": "Matt O'Connell <mattoconnell408@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/behance/jasmine-vue/issues"
+  },
+  "homepage": "https://github.com/behance/jasmine-vue#readme",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-behance": "^3.1.0",
+    "cross-env": "^3.1.2",
+    "eslint": "^3.5.0",
+    "eslint-plugin-behance": "^1.0.0",
+    "eslint-preset-behance": "^4.0.0",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-mocha-reporter": "^2.2.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-webpack": "^1.8.0",
+    "vue": "^2.3.2",
+    "webpack": "^2.1.0-beta.25"
+  }
+}

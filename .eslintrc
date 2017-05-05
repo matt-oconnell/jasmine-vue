@@ -1,0 +1,12 @@
+{
+  "extends": "./node_modules/eslint-preset-behance/.eslintrc",
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "affix": true
+  },
+  "rules": {
+    "no-use-before-define": 0
+  }
+}
