@@ -1,5 +1,5 @@
 /* eslint-env jasmine */
-import { setBeforeEachFunctions, removeComponent } from './setup';
+import { setInitializer, destroyComponents } from './setup';
 
-beforeEach(setBeforeEachFunctions);
-afterEach(removeComponent);
+beforeEach(setInitializer);
+afterEach(destroyComponents);

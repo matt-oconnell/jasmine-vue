@@ -2,7 +2,7 @@
   "name": "jasmine-vue",
   "version": "0.0.1",
   "description": "Jasmine test helper for Vue files",
-  "main": "dist/jasmine-vue.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "npm run eslint && npm run karma -- --single-run --reporters=progress,coverage",
     "test:dev": "npm run karma -- --reporters=mocha,coverage",

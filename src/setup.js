@@ -1,50 +1,18 @@
-import Vue from 'vue';
+import JasmineVueWrapper from './JasmineVueWrapper';
 
-let cachedComponent = null;
+export let componentCache = [];
 
-function vueInit(Component, defaultProps = {}) {
-  this._jasmineVueComponent = Component;
-  this._jasmineVueDefaultProps = defaultProps;
-  this._jasmineVueActive = true;
-};
-
-function appendWrap() {
-  const wrap = document.createElement('div');
-  document.body.appendChild(wrap);
-  return wrap;
+export function vueInit(Component, defaultProps = {}) {
+  const wrapper = new JasmineVueWrapper(Component, defaultProps);
+  componentCache.push(wrapper);
+  return wrapper;
 }
 
-function vueMount(propsData = this._jasmineVueDefaultProps) {
-  if (!this._jasmineVueActive) {
-    return;
-  }
-
-  removeComponent();
-
-  const wrap = appendWrap();
-
-  const component = new Vue({
-    propsData,
-    ...this._jasmineVueComponent,
-  }).$mount(wrap);
-
-  cachedComponent = component;
-
-  return {
-    component,
-    wrap,
-  };
-};
-
-export function setBeforeEachFunctions() {
+export function setInitializer() {
   this.vueInit = vueInit;
-  this.vueMount = vueMount;
 };
 
-export function removeComponent() {
-  if (cachedComponent) {
-    cachedComponent.$destroy();
-    document.body.removeChild(cachedComponent.$el);
-    cachedComponent = null;
-  }
+export function destroyComponents() {
+  componentCache.forEach(component => component.destroy());
+  componentCache = [];
 };
