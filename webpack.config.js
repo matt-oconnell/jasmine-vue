@@ -5,14 +5,15 @@ module.exports = {
   entry: {
     main: './src/index.js',
   },
-  output: {
-    filename: 'jasmine-vue.js',
-    path: __dirname + '/dist/',
-  },
   target: 'web',
   module: {
     rules: [
       { test: /\.js$/, loader: 'babel-loader' },
     ],
   },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.js',
+    }
+  }
 };
