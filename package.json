@@ -1,6 +1,6 @@
 {
   "name": "jasmine-vue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Jasmine test helper for Vue files",
   "main": "src/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "eslint": "eslint src/**/*.js test/**/*.js",
     "karma": "cross-env NODE_ENV=test karma start",
     "webpack": "webpack --progress --color --watch",
-    "preversion": "npm run webpack && git add dist"
+    "preversion": "babel src --out-file dist/index.js && git add dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/behance/jasmine-vue#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-preset-behance": "^3.1.0",

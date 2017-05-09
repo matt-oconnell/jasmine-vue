@@ -12,6 +12,14 @@ $ npm install --save-dev jasmine-vue
 
 Jasmine Vue abstracts away some of the boilerplate required when testing Vue components. Currently it helps with the setup, mounting, and destruction of a component.
 
+## Setup
+
+Include `jasmine-vue` in the root file of your tests using `require`.
+
+```javascript
+require('./my/path/to/jasmine-vue/dist/index.js');
+```
+
 ## Initialization
 
 A `vueInit` function will be available in the test context. It returns a wrapper object with `mount` and `destroy` methods. It also has a `vm` property that represents the Vue component itself.
