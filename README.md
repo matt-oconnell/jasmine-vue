@@ -28,7 +28,7 @@ beforeEach(function() {
 
 ## Mount
 
-Use `wrapper.mount` to mount the component. The mount method accepts an optional object with custom prop data. It returns the instance of the Vue component itself. If components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method, cleaning up any event listeners. during the `afterEach` phase.
+Use `wrapper.mount` to mount the component. The mount method accepts an optional object with custom prop data. It returns the instance of the Vue component itself. If components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method, cleaning up any event listeners during the `afterEach` phase.
 
 
 ```javascript
