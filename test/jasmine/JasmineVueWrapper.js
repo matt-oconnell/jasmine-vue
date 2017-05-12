@@ -43,23 +43,28 @@ describe('JasmineVueWrapper', function() {
 
   describe('#destroy', function() {
     beforeEach(function() {
-      const Component = { template: '<p id="a"></p>' };
-      this.componentWrap = new JasmineVueWrapper(Component);
-      this.componentWrap.mount();
+      const Component1 = { template: '<p id="a"></p>' };
+      const Component2 = { template: '<p id="b"></p>' };
+      this.componentWrap = new JasmineVueWrapper(Component1);
+      this.comp1 = this.componentWrap.mount();
+      this.comp2 = this.componentWrap.mount(Component2);
     });
 
-    it('calls $destroy on the component', function() {
-      spyOn(this.componentWrap.vm, '$destroy').and.callThrough();
+    it('calls $destroy on the all mounted components', function() {
+      spyOn(this.comp1, '$destroy').and.callThrough();
+      spyOn(this.comp2, '$destroy').and.callThrough();
 
       this.componentWrap.destroy();
 
-      expect(this.componentWrap.vm.$destroy).toHaveBeenCalled();
+      expect(this.comp1.$destroy).toHaveBeenCalled();
+      expect(this.comp2.$destroy).toHaveBeenCalled();
     });
 
-    it('removes the component element from the DOM', function() {
+    it('removes the component elements from the DOM', function() {
       this.componentWrap.destroy();
 
       expect(document.getElementById('a')).toBe(null);
+      expect(document.getElementById('b')).toBe(null);
     });
 
     it('does not throw an error if called multiple times', function() {
