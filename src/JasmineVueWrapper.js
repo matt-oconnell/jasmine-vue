@@ -5,26 +5,28 @@ export default class JasmineVueWrapper {
     this.component = Component;
     this.defaultProps = defaultProps;
     this.container = document.body;
+    this.instanceCache = [];
   }
 
   mount(propsData = this.defaultProps) {
-    this.wrap = document.createElement('div');
-    this.container.appendChild(this.wrap);
+    const wrap = document.createElement('div');
+    this.container.appendChild(wrap);
 
-    this.vm = new Vue({
+    const vm = new Vue({
       ...this.component,
       propsData,
-    }).$mount(this.wrap);
+    }).$mount(wrap);
 
-    return this.vm;
+    this.instanceCache.push(vm);
+
+    return vm;
   }
 
   destroy() {
-    if (!this.wrap) {
-      return;
-    }
-    this.vm.$destroy();
-    this.container.removeChild(this.vm.$el);
-    delete this.wrap;
+    this.instanceCache.forEach((vm) => {
+      vm.$destroy();
+      this.container.removeChild(vm.$el);
+    });
+    this.instanceCache = [];
   }
 }
