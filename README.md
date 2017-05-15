@@ -22,7 +22,7 @@ require('jasmine-vue');
 
 ## Initialization
 
-A `vueInit` function will be available in the test context. It returns a wrapper object with `mount` and `destroy` methods. It also has a `vm` property that represents the Vue component itself.
+A `vueInit` function will be available in the test context. It returns a creator object with `mount` and `destroy` methods. `vueInit` takes in an optional set of default props. It will generally only need to be called once per component test file.
 
 ```javascript
 beforeEach(function() {
@@ -30,23 +30,25 @@ beforeEach(function() {
     myProp: true,
   };
   // Initialize
-  this.wrapper = this.vueInit(MyComponent, defaultProps);
+  this.componentCreator = this.vueInit(MyComponent, defaultProps);
 });
 ```
 
 ## Mount
 
-Use `wrapper.mount` to mount the component. The mount method accepts an optional object with custom prop data. It returns the instance of the Vue component itself. If components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method, cleaning up any event listeners during the `afterEach` phase.
+Use `this.componentCreator.mount` to mount the component. The mount method accepts an optional object with custom prop data. This custom data will overwrite the `defaultProps` passed in in the `vueInit` method if provided. It returns the instance of the Vue component itself. 
+
+If components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method, cleaning up any event listeners during the `afterEach` phase.
 
 
 ```javascript
 it('mounts my component', function() {
-  const vm = this.wrapper.mount();
+  const vm = this.componentCreator.mount();
   expect(vm.$el).toBeInDOM(); // using jasmine-jquery
 });
 
 it('renders my component using default props', function() {
-  const vm = this.wrapper.mount();
+  const vm = this.componentCreator.mount();
   expect(vm.myProp).toEqual(true);
 });
 
