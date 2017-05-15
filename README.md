@@ -38,8 +38,6 @@ beforeEach(function() {
 
 Use `this.componentCreator.mount` to mount the component. The mount method accepts an optional object with custom prop data. This custom data will overwrite the `defaultProps` passed in in the `vueInit` method if provided. It returns the instance of the Vue component itself. 
 
-If components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method, cleaning up any event listeners during the `afterEach` phase.
-
 
 ```javascript
 it('mounts my component', function() {
@@ -57,6 +55,10 @@ it('renders my component using custom props', function() {
   expect(vm).toEqual(false);
 });
 ```
+
+## Clean up
+
+In each `afterEach` phase, if components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method.
 
 ## License
 
