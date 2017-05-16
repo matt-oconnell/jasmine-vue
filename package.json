@@ -1,6 +1,6 @@
 {
   "name": "jasmine-vue",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Jasmine test helper for Vue files",
   "main": "dist/index.js",
   "scripts": {
