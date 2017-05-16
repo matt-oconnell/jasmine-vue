@@ -25,6 +25,7 @@ var JasmineVueWrapper = function () {
     this.component = Component;
     this.defaultProps = defaultProps;
     this.container = document.body;
+    this.instanceCache = [];
   }
 
   _createClass(JasmineVueWrapper, [{
@@ -32,24 +33,27 @@ var JasmineVueWrapper = function () {
     value: function mount() {
       var propsData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.defaultProps;
 
-      this.wrap = document.createElement('div');
-      this.container.appendChild(this.wrap);
+      var wrap = document.createElement('div');
+      this.container.appendChild(wrap);
 
-      this.vm = new _vue2.default(_extends({}, this.component, {
+      var vm = new _vue2.default(_extends({}, this.component, {
         propsData: propsData
-      })).$mount(this.wrap);
+      })).$mount(wrap);
 
-      return this.vm;
+      this.instanceCache.push(vm);
+
+      return vm;
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      if (!this.wrap) {
-        return;
-      }
-      this.vm.$destroy();
-      this.container.removeChild(this.vm.$el);
-      delete this.wrap;
+      var _this = this;
+
+      this.instanceCache.forEach(function (vm) {
+        vm.$destroy();
+        _this.container.removeChild(vm.$el);
+      });
+      this.instanceCache = [];
     }
   }]);
 

@@ -1,4 +1,5 @@
 import JasmineVueWrapper from './../../src/JasmineVueWrapper';
+import Vue from 'vue';
 
 describe('JasmineVueWrapper', function() {
   describe('#mount', function() {
@@ -15,7 +16,7 @@ describe('JasmineVueWrapper', function() {
       expect(document.getElementById('a')).toBeTruthy();
     });
 
-    it('uses default props if provided', function() {
+    it('uses default props if provided on initilialization', function() {
       const Component = {
         template: '<p :id="id"></p>',
         props: ['id'],
@@ -38,6 +39,32 @@ describe('JasmineVueWrapper', function() {
 
       expect(document.getElementById('b')).toBe(null);
       expect(document.getElementById('c')).toBeTruthy();
+    });
+
+    it('initializes a reactive store if provided during mount', function(done) {
+      const Component = {
+        template: '<p :id="id">{{$store.state.text}}</p>',
+        props: ['id'],
+      };
+
+      this.componentWrap = new JasmineVueWrapper(Component);
+
+      const store = {
+        state: {
+          text: 'initial text',
+        },
+      };
+
+      this.componentWrap.mount({ id: 'a' }, store);
+
+      expect(document.getElementById('a').innerText).toMatch(store.state.text);
+
+      store.state.text = 'updated text';
+
+      Vue.nextTick(() => {
+        expect(document.getElementById('a').innerText).toMatch(store.state.text);
+        done();
+      });
     });
   });
 
