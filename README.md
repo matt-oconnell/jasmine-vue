@@ -62,9 +62,9 @@ it('renders my component using custom props and a Vuex store', function() {
     },
   };
 
-  const vm = this.wrapper.mount({ myProp: false }, myStore);
+  const vm = this.wrapper.mount({}, myStore);
 
-  expect(vm.$store.text).toEqual('abc123');
+  expect(vm.$store.state.text).toEqual('abc123');
 });
 ```
 
