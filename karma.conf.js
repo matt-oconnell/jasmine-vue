@@ -10,6 +10,7 @@ module.exports = function(config) {
     ],
 
     files: [
+      './node_modules/babel-polyfill/dist/polyfill.js',
       './test/jasmine/**/*.js',
     ],
 

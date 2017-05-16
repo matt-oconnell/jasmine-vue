@@ -1,4 +1,7 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
 
 export default class JasmineVueWrapper {
   constructor(Component, defaultProps = {}) {
@@ -8,14 +11,20 @@ export default class JasmineVueWrapper {
     this.instanceCache = [];
   }
 
-  mount(propsData = this.defaultProps) {
+  mount(propsData = this.defaultProps, store) {
     const wrap = document.createElement('div');
     this.container.appendChild(wrap);
 
-    const vm = new Vue({
+    const componentData = {
       ...this.component,
       propsData,
-    }).$mount(wrap);
+    };
+
+    if (store) {
+      componentData.store = new Vuex.Store(store);
+    }
+
+    const vm = new Vue(componentData).$mount(wrap);
 
     this.instanceCache.push(vm);
 
