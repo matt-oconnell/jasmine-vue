@@ -51,7 +51,7 @@ it('renders my component using default props', function() {
 });
 
 it('renders my component using custom props', function() {
-  const vm = this.wrapper.mount({ myProp: false });
+  const vm = this.componentCreator.mount({ myProp: false });
   expect(vm).toEqual(false);
 });
 
@@ -62,7 +62,7 @@ it('renders my component using custom props and a Vuex store', function() {
     },
   };
 
-  const vm = this.wrapper.mount({}, myStore);
+  const vm = this.componentCreator.mount({}, myStore);
 
   expect(vm.$store.state.text).toEqual('abc123');
 });
