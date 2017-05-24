@@ -37,6 +37,28 @@ var JasmineVueWrapper = function () {
   _createClass(JasmineVueWrapper, [{
     key: 'mount',
     value: function mount() {
+      return this._mount.apply(this, arguments);
+    }
+  }, {
+    key: 'mountSolo',
+    value: function mountSolo() {
+      this.destroy();
+      return this._mount.apply(this, arguments);
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var _this = this;
+
+      this.instanceCache.forEach(function (vm) {
+        vm.$destroy();
+        _this.container.removeChild(vm.$el);
+      });
+      this.instanceCache = [];
+    }
+  }, {
+    key: '_mount',
+    value: function _mount() {
       var propsData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.defaultProps;
       var store = arguments[1];
 
@@ -56,17 +78,6 @@ var JasmineVueWrapper = function () {
       this.instanceCache.push(vm);
 
       return vm;
-    }
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      var _this = this;
-
-      this.instanceCache.forEach(function (vm) {
-        vm.$destroy();
-        _this.container.removeChild(vm.$el);
-      });
-      this.instanceCache = [];
     }
   }]);
 
