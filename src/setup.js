@@ -20,6 +20,7 @@ export function setInitializer() {
 
 export function destroyComponents() {
   if (preventDestroy) {
+    console.warn('Preventing destruction of components. This is for debugging purposes only.');
     return;
   }
   componentCache.forEach(component => component.destroy());
