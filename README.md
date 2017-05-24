@@ -34,7 +34,7 @@ beforeEach(function() {
 });
 ```
 
-## Mount
+## Mounting/ Rendering Components
 
 Use  the creator returned from `vueInit` to mount the component. The mount method accepts an optional object with custom prop data as the first parameter. This custom data will overwrite the `defaultProps` passed in in the `vueInit` method if provided. It also accepts an optional 2nd parameter for a vuex store. It returns the instance of the Vue component itself.
 
@@ -42,7 +42,7 @@ Use  the creator returned from `vueInit` to mount the component. The mount metho
 ```javascript
 it('mounts my component', function() {
   const vm = this.componentCreator.mount();
-  expect(vm.$el).toBeInDOM(); // using jasmine-jquery
+  expect($(vm.$el)).toBeInDOM(); // using jasmine-jquery
 });
 
 it('renders my component using default props', function() {
@@ -68,9 +68,27 @@ it('renders my component using custom props and a Vuex store', function() {
 });
 ```
 
+### mountSolo
+
+```javascript
+beforeEach(function() {
+    this.vm = this.componentCreator.mount();
+});
+
+it('clears all previously mounted components and mounts a solo component', function() {
+  const soloVm = this.componentCreator.mountSolo();
+  expect($(this.vm.$el)).not.toBeInDOM();
+  expect($(soloVm.$el)).not.toBeInDOM();
+});
+```
+
 ## Clean up
 
 In each `afterEach` phase, if components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method.
+
+### vuePreventDestroy
+
+Available as `this.vuePreventDestroy`, this method will disable the `afterEach` cleanup of components. This (combined with `fit` or `fdescribe`) allows for some nice sandboxing of components. Focus the test, call `this.vuePreventDestroy`, and open the browser and access the component in its current state. Unlike using the debugger, this allows for interacting with the component in it's current state.
 
 ## License
 
