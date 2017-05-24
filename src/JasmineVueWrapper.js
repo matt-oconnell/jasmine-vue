@@ -11,7 +11,24 @@ export default class JasmineVueWrapper {
     this.instanceCache = [];
   }
 
-  mount(propsData = this.defaultProps, store) {
+  mount(...args) {
+    return this._mount(...args);
+  }
+
+  mountSolo(...args) {
+    this.destroy();
+    return this._mount(...args);
+  }
+
+  destroy() {
+    this.instanceCache.forEach((vm) => {
+      vm.$destroy();
+      this.container.removeChild(vm.$el);
+    });
+    this.instanceCache = [];
+  }
+
+  _mount(propsData = this.defaultProps, store) {
     const wrap = document.createElement('div');
     this.container.appendChild(wrap);
 
@@ -29,13 +46,5 @@ export default class JasmineVueWrapper {
     this.instanceCache.push(vm);
 
     return vm;
-  }
-
-  destroy() {
-    this.instanceCache.forEach((vm) => {
-      vm.$destroy();
-      this.container.removeChild(vm.$el);
-    });
-    this.instanceCache = [];
   }
 }
