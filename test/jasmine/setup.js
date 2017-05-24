@@ -3,6 +3,7 @@ import {
   destroyComponents,
   setInitializer,
   vueInit,
+  vuePreventDestroy,
 } from '../../src/setup';
 import JasmineVueWrapper from './../../src/JasmineVueWrapper';
 
@@ -59,6 +60,26 @@ describe('src/setup', function() {
 
       expect(this.componentWrap.destroy).toHaveBeenCalled();
       expect(this.componentWrap2.destroy).toHaveBeenCalled();
+    });
+  });
+
+  describe('#vuePreventDestroy', function() {
+    it('prevents destruction of components in cache', function() {
+      this.setInitializer();
+      this.vuePreventDestroy();
+
+      const Component = { template: '<p id="a"></p>' };
+
+      this.componentWrap = this.vueInit(Component);
+      this.componentWrap2 = this.vueInit(Component);
+
+      spyOn(this.componentWrap, 'destroy');
+      spyOn(this.componentWrap2, 'destroy');
+
+      destroyComponents();
+
+      expect(this.componentWrap.destroy).not.toHaveBeenCalled();
+      expect(this.componentWrap2.destroy).not.toHaveBeenCalled();
     });
   });
 });

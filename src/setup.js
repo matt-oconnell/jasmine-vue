@@ -1,7 +1,7 @@
 import JasmineVueWrapper from './JasmineVueWrapper';
 
 export let componentCache = [];
-export let preventDestroy = false;
+let preventDestroy = false;
 
 export function vueInit(Component, defaultProps = {}) {
   const wrapper = new JasmineVueWrapper(Component, defaultProps);
