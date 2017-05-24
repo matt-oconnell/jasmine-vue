@@ -68,6 +68,25 @@ describe('JasmineVueWrapper', function() {
     });
   });
 
+  describe('#mountSolo', function() {
+    afterEach(function() {
+      this.componentWrap.destroy();
+    });
+
+    it('mounts a single Vue component to page body, clearing out any premounted components', function() {
+      const Component = { template: '<div>Component</div>' };
+      this.componentWrap = new JasmineVueWrapper(Component);
+
+      const vm = this.componentWrap.mount();
+      expect(vm.$el.offsetParent !== null).toBeTruthy();
+
+      const vm2 = this.componentWrap.mountSolo();
+
+      expect(vm.$el.offsetParent !== null).not.toBeTruthy();
+      expect(vm2.$el.offsetParent !== null).toBeTruthy();
+    });
+  });
+
   describe('#destroy', function() {
     beforeEach(function() {
       const Component1 = { template: '<p id="a"></p>' };
