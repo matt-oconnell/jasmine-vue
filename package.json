@@ -9,6 +9,7 @@
     "eslint": "eslint src/**/*.js test/**/*.js",
     "karma": "cross-env NODE_ENV=test karma start",
     "webpack": "webpack --progress --color --watch",
+    "watch": "babel src --watch --out-dir dist && git add dist",
     "preversion": "babel src --out-dir dist && git add dist"
   },
   "repository": {
