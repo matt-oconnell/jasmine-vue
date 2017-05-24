@@ -36,7 +36,7 @@ beforeEach(function() {
 
 ## Mount
 
-Use `this.componentCreator.mount` to mount the component. The mount method accepts an optional object with custom prop data as the first parameter. This custom data will overwrite the `defaultProps` passed in in the `vueInit` method if provided. It also accepts an optional 2nd parameter for a vuex store. It returns the instance of the Vue component itself.
+Use  the creator returned from `vueInit` to mount the component. The mount method accepts an optional object with custom prop data as the first parameter. This custom data will overwrite the `defaultProps` passed in in the `vueInit` method if provided. It also accepts an optional 2nd parameter for a vuex store. It returns the instance of the Vue component itself.
 
 
 ```javascript
