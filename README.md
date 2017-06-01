@@ -22,7 +22,7 @@ require('jasmine-vue');
 
 ## Initialization
 
-A `vueInit` function will be available in the test context. It returns a creator object with `mount` and `destroy` methods. `vueInit` takes in an optional set of default props. It will generally only need to be called once per component test file.
+A `vueInit` function will be available in the test context. It returns a creator object that is used to mount component instances. `vueInit` takes in an optional set of default props. It will generally only need to be called once per component test file.
 
 ```javascript
 beforeEach(function() {
