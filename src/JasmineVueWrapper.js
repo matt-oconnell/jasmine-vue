@@ -28,12 +28,13 @@ export default class JasmineVueWrapper {
     this.instanceCache = [];
   }
 
-  _mount(propsData = this.defaultProps, store) {
+  _mount(propsData = this.defaultProps, store, componentOverrides) {
     const wrap = document.createElement('div');
     this.container.appendChild(wrap);
 
     const componentData = {
       ...this.component,
+      ...componentOverrides,
       propsData,
     };
 
