@@ -66,6 +66,23 @@ describe('JasmineVueWrapper', function() {
         done();
       });
     });
+
+    it('uses custom component properties if provided', function(done) {
+      const Component = {
+        template: '<p :id="id">text</p>',
+        props: ['id'],
+      };
+      const beforeMount = jasmine.createSpy('component#beforeModel');
+
+      this.componentWrap = new JasmineVueWrapper(Component);
+
+      this.componentWrap.mount({ id: 'a' }, null, { beforeMount });
+
+      Vue.nextTick(() => {
+        expect(beforeMount).toHaveBeenCalled();
+        done();
+      });
+    });
   });
 
   describe('#mountSolo', function() {
