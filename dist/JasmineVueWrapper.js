@@ -61,11 +61,12 @@ var JasmineVueWrapper = function () {
     value: function _mount() {
       var propsData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.defaultProps;
       var store = arguments[1];
+      var componentOverrides = arguments[2];
 
       var wrap = document.createElement('div');
       this.container.appendChild(wrap);
 
-      var componentData = _extends({}, this.component, {
+      var componentData = _extends({}, this.component, componentOverrides, {
         propsData: propsData
       });
 
