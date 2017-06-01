@@ -34,41 +34,67 @@ beforeEach(function() {
 });
 ```
 
-## Mounting/ Rendering Components
+## Mounting / Rendering Components
 
-Use  the creator returned from `vueInit` to mount the component. The mount method accepts an optional object with custom prop data as the first parameter. This custom data will overwrite the `defaultProps` passed in in the `vueInit` method if provided. It also accepts an optional 2nd parameter for a vuex store. It returns the instance of the Vue component itself.
+Use  the creator returned from `vueInit` to mount the component.
 
+#### creator.mount( [customPropsData], [store], [componentOverrides] )
+
+- Arguments:
+    - {Object} customPropsData (optional)
+        - will overwrite `defaultProps` passed into `vueInit`, otherwise defaults to them
+    - {Object} store (optional)
+        - creates a `new Vuex.Store` on the passed-in object and sets it on the instance
+    - {Object} componentOverrides (optional)
+        - will override any instance properties
+        - can be used to spy on or stub lifecycle methods
+- Usage:
+
+Without any arguments:
 
 ```javascript
-it('mounts my component', function() {
+it('renders my component with default props', function() {
   const vm = this.componentCreator.mount();
   expect($(vm.$el)).toBeInDOM(); // using jasmine-jquery
-});
-
-it('renders my component using default props', function() {
-  const vm = this.componentCreator.mount();
   expect(vm.myProp).toEqual(true);
 });
+```
 
+With custom props data:
+
+```javascript
 it('renders my component using custom props', function() {
   const vm = this.componentCreator.mount({ myProp: false });
-  expect(vm).toEqual(false);
+  expect(vm.myProp).toEqual(false);
 });
+```
 
+With a store:
+
+```javascript
 it('renders my component using custom props and a Vuex store', function() {
-  const myStore = {
+  const vm = this.componentCreator.mount({}, {
     state: {
       text: 'abc123',
     },
-  };
-
-  const vm = this.componentCreator.mount({}, myStore);
-
+  });
   expect(vm.$store.state.text).toEqual('abc123');
 });
 ```
 
-### mountSolo
+With a component override:
+
+```javascript
+it('renders my component using custom props and a Vuex store', function() {
+  const spy = jasmine.createSpy('spy');
+  const vm = this.componentCreator.mount({}, {}, {
+    beforeMount: spy
+  });
+  expect(spy).toHaveBeenCalled();
+});
+```
+
+#### creator.mountSolo( [customPropsData], [store], [componentOverrides] )
 
 ```javascript
 beforeEach(function() {
@@ -86,7 +112,7 @@ it('clears all previously mounted components and mounts a solo component', funct
 
 In each `afterEach` phase, if components have been mounted, `jasmine-vue` will automatically remove the component DOM element and call Vue's `$destroy` method.
 
-### vuePreventDestroy
+#### vuePreventDestroy
 
 Available as `this.vuePreventDestroy`, this method will disable the `afterEach` cleanup of components. This (combined with `fit` or `fdescribe`) allows for some nice sandboxing of components. Focus the test, call `this.vuePreventDestroy`, and open the browser and access the component in its current state. Unlike using the debugger, this allows for interacting with the component in it's current state.
 
