@@ -104,7 +104,7 @@ beforeEach(function() {
 it('clears all previously mounted components and mounts a solo component', function() {
   const soloVm = this.componentCreator.mountSolo();
   expect($(this.vm.$el)).not.toBeInDOM();
-  expect($(soloVm.$el)).not.toBeInDOM();
+  expect($(soloVm.$el)).toBeInDOM();
 });
 ```
 
