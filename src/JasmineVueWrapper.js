@@ -11,38 +11,45 @@ export default class JasmineVueWrapper {
     this.instanceCache = [];
   }
 
-  mount(...args) {
-    return this._mount(...args);
+  mount(options) {
+    return this._mount(options);
   }
 
-  mountSolo(...args) {
+  mountSolo(options) {
     this.destroy();
-    return this._mount(...args);
+    return this._mount(options);
   }
 
   destroy() {
     this.instanceCache.forEach((vm) => {
       vm.$destroy();
-      this.container.removeChild(vm.$el);
+      vm.$el.remove();
     });
     this.instanceCache = [];
   }
 
-  _mount(propsData = this.defaultProps, store, componentOverrides) {
-    const wrap = document.createElement('div');
-    this.container.appendChild(wrap);
+  _mount({ propsData, store, componentOverrides, el } = { }) {
+    let mountPoint;
+
+    if (el) {
+      mountPoint = typeof el === 'string' ? document.querySelector(el) : el;
+    }
+    else {
+      mountPoint = document.createElement('div');
+      this.container.appendChild(mountPoint);
+    }
 
     const componentData = {
       ...this.component,
       ...componentOverrides,
-      propsData,
+      propsData: propsData ? propsData : this.defaultProps,
     };
 
     if (store) {
       componentData.store = new Vuex.Store(store);
     }
 
-    const vm = new Vue(componentData).$mount(wrap);
+    const vm = new Vue(componentData).$mount(mountPoint);
 
     this.instanceCache.push(vm);
 
