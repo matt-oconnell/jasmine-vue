@@ -36,45 +36,51 @@ var JasmineVueWrapper = function () {
 
   _createClass(JasmineVueWrapper, [{
     key: 'mount',
-    value: function mount() {
-      return this._mount.apply(this, arguments);
+    value: function mount(options) {
+      return this._mount(options);
     }
   }, {
     key: 'mountSolo',
-    value: function mountSolo() {
+    value: function mountSolo(options) {
       this.destroy();
-      return this._mount.apply(this, arguments);
+      return this._mount(options);
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      var _this = this;
-
       this.instanceCache.forEach(function (vm) {
         vm.$destroy();
-        _this.container.removeChild(vm.$el);
+        vm.$el.remove();
       });
       this.instanceCache = [];
     }
   }, {
     key: '_mount',
     value: function _mount() {
-      var propsData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.defaultProps;
-      var store = arguments[1];
-      var componentOverrides = arguments[2];
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          propsData = _ref.propsData,
+          store = _ref.store,
+          componentOverrides = _ref.componentOverrides,
+          el = _ref.el;
 
-      var wrap = document.createElement('div');
-      this.container.appendChild(wrap);
+      var mountPoint = void 0;
+
+      if (el) {
+        mountPoint = typeof el === 'string' ? document.querySelector(el) : el;
+      } else {
+        mountPoint = document.createElement('div');
+        this.container.appendChild(mountPoint);
+      }
 
       var componentData = _extends({}, this.component, componentOverrides, {
-        propsData: propsData
+        propsData: propsData ? propsData : this.defaultProps
       });
 
       if (store) {
         componentData.store = new _vuex2.default.Store(store);
       }
 
-      var vm = new _vue2.default(componentData).$mount(wrap);
+      var vm = new _vue2.default(componentData).$mount(mountPoint);
 
       this.instanceCache.push(vm);
 
