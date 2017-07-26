@@ -38,7 +38,7 @@ beforeEach(function() {
 
 Use  the creator returned from `vueInit` to mount the component.
 
-#### creator.mount( [customPropsData], [store], [componentOverrides] )
+#### creator.mount( { [customPropsData], [store], [componentOverrides], el } )
 
 - Arguments:
     - {Object} customPropsData (optional)
@@ -48,6 +48,9 @@ Use  the creator returned from `vueInit` to mount the component.
     - {Object} componentOverrides (optional)
         - will override any instance properties
         - can be used to spy on or stub lifecycle methods
+    - {String|Element} El (optional)
+        - will mount Vue component to an element selector or to an element that is passed in
+        - if left blank, it will mount to body
 - Usage:
 
 Without any arguments:
@@ -64,7 +67,7 @@ With custom props data:
 
 ```javascript
 it('renders my component using custom props', function() {
-  const vm = this.componentCreator.mount({ myProp: false });
+  const vm = this.componentCreator.mount({ propsData: { myProp: false } });
   expect(vm.myProp).toEqual(false);
 });
 ```
@@ -94,7 +97,7 @@ it('renders my component using custom props and a Vuex store', function() {
 });
 ```
 
-#### creator.mountSolo( [customPropsData], [store], [componentOverrides] )
+#### creator.mountSolo( { [customPropsData], [store], [componentOverrides], el } )
 
 ```javascript
 beforeEach(function() {

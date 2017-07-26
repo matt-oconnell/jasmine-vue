@@ -3,8 +3,17 @@ import Vue from 'vue';
 
 describe('JasmineVueWrapper', function() {
   describe('#mount', function() {
+    beforeEach(function() {
+      const wrapper = document.createElement('div');
+      wrapper.setAttribute('class', 'wrapper');
+      const mountPoint = document.createElement('div');
+      mountPoint.setAttribute('class', 'mountPoint');
+      wrapper.appendChild(mountPoint);
+      document.body.appendChild(wrapper);
+    });
     afterEach(function() {
       this.componentWrap.destroy();
+      document.body.removeChild(document.querySelector('.wrapper'));
     });
 
     it('mounts a Vue component to page body', function() {
@@ -14,6 +23,23 @@ describe('JasmineVueWrapper', function() {
       this.componentWrap.mount();
 
       expect(document.getElementById('a')).toBeTruthy();
+    });
+
+    it('mounts a Vue component to class selector', function() {
+      const Component = { template: '<p id="a"></p>' };
+      this.componentWrap = new JasmineVueWrapper(Component);
+      this.componentWrap.mount({ el: '.mountPoint' });
+      const wrapperEl = document.querySelector('.wrapper');
+      expect(wrapperEl.firstElementChild.outerHTML).toEqual('<p id="a"></p>');
+    });
+
+    it('mounts a Vue component to an element', function() {
+      const Component = { template: '<p id="a"></p>' };
+      this.componentWrap = new JasmineVueWrapper(Component);
+      const mountPoint = document.querySelector('.mountPoint');
+      this.componentWrap.mount({ el: mountPoint });
+      const wrapperEl = document.querySelector('.wrapper');
+      expect(wrapperEl.firstElementChild.outerHTML).toEqual('<p id="a"></p>');
     });
 
     it('uses default props if provided on initilialization', function() {
@@ -35,7 +61,7 @@ describe('JasmineVueWrapper', function() {
       };
       this.componentWrap = new JasmineVueWrapper(Component, { id: 'b' });
 
-      this.componentWrap.mount({ id: 'c' });
+      this.componentWrap.mount({ propsData: { id: 'c' } });
 
       expect(document.getElementById('b')).toBe(null);
       expect(document.getElementById('c')).toBeTruthy();
@@ -55,7 +81,7 @@ describe('JasmineVueWrapper', function() {
         },
       };
 
-      this.componentWrap.mount({ id: 'a' }, store);
+      this.componentWrap.mount({ propsData: { id: 'a' }, store });
 
       expect(document.getElementById('a').innerText).toMatch(store.state.text);
 
@@ -76,7 +102,7 @@ describe('JasmineVueWrapper', function() {
 
       this.componentWrap = new JasmineVueWrapper(Component);
 
-      this.componentWrap.mount({ id: 'a' }, null, { beforeMount });
+      this.componentWrap.mount({ propsData: { id: 'a' }, componentOverrides: { beforeMount } });
 
       Vue.nextTick(() => {
         expect(beforeMount).toHaveBeenCalled();
