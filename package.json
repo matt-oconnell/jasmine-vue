@@ -1,5 +1,5 @@
 {
-  "name": "jasmine-vue",
+  "name": "@behance/jasmine-vue",
   "version": "1.0.0",
   "description": "Jasmine test helper for Vue files",
   "main": "dist/index.js",
