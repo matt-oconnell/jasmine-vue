@@ -1,4 +1,4 @@
-# jasmine-vue [![npm](https://img.shields.io/npm/v/jasmine-vue.svg)](https://www.npmjs.com/package/jasmine-vue)
+# jasmine-vue [![Build Status](https://img.shields.io/travis/behance/jasmine-vue.svg)](http://travis-ci.org/behance/jasmine-vue) [![npm](https://img.shields.io/npm/v/@behance/jasmine-vue.svg)](https://www.npmjs.com/package/@behance/jasmine-vue)
 
 Jasmine test helper for Vue components
 
@@ -7,7 +7,7 @@ Jasmine test helper for Vue components
 ## Install
 
 ```
-$ npm install --save-dev jasmine-vue
+$ npm install --save-dev @behance/jasmine-vue
 ```
 
 Jasmine Vue abstracts away some of the boilerplate required when testing Vue components. Currently it helps with the setup, mounting, and destruction of a component.
@@ -17,7 +17,7 @@ Jasmine Vue abstracts away some of the boilerplate required when testing Vue com
 Include `jasmine-vue` in the root file of your tests using `require`.
 
 ```javascript
-require('jasmine-vue');
+require('@behance/jasmine-vue');
 ```
 
 ## Initialization

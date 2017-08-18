@@ -3,7 +3,6 @@ import {
   destroyComponents,
   setInitializer,
   vueInit,
-  vuePreventDestroy,
 } from '../../src/setup';
 import JasmineVueWrapper from './../../src/JasmineVueWrapper';
 
